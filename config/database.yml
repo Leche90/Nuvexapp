@@ -51,5 +51,5 @@ test:
 production:
   <<: *default
   database: nuvexa_production
-  username: nuvexa_depot
-  password: <%= ENV["ELECTRO_DEPOT_DATABASE_PASSWORD"] %>
+  username: nuvexa
+  password: <%= ENV["NUVEXA_DATABASE_PASSWORD"] %>
