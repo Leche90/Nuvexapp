@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; // Light grey
+  }
+  
+  .navbar {
+    background-color: #343a40; // Dark grey
+    .navbar-brand, .nav-link {
+      color: #ffd700 !important; // Gold
+      &:hover {
+        color: #ffea70 !important; // Lighter gold
+      }
+    }
+  }
+  
+  footer {
+    background-color: #343a40; // Dark grey
+    color: #ffd700; // Gold
+    font-weight: bold;
+    p {
+      margin: 0;
+    }
+  }
+  
+  .bg-gray-500 {
+    background-color: #6c757d !important; // Medium grey
+  }
+  
+  button {
+    background-color: #ffd700; // Gold
+    &:hover {
+      background-color: #ffea70; // Lighter gold
+    }
+  }
+  
+  .text-gray-800 {
+    color: #343a40; // Dark grey
+  }
+  
+  .text-gray-300 {
+    color: #ced4da; // Light grey
+  }
+  
+  .text-gray-500 {
+    color: #6c757d; // Medium grey
+  }
+  
