@@ -12,7 +12,6 @@ Rails.application.routes.draw do
     sessions: "frontend/sessions"
   }, as: "frontend"
 
-
   # Admin routes
   namespace :admin do
     get "provinces/index"
@@ -46,7 +45,6 @@ Rails.application.routes.draw do
       get :invoice
     end
   end
-
 
   # Health check route and PWA files
   get "up" => "rails/health#show", as: :rails_health_check
