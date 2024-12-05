@@ -8,7 +8,7 @@
   
     h2 {
       font-size: 2.5rem;
-      font-weight: bold;
+      font-weight: 500;
       margin-bottom: 2rem;
       color: #1f1f1f; // Slightly off-white for contrast
     }
@@ -24,7 +24,7 @@
         margin: 0;
         color: #ffffff; // White text for readability
         &:last-of-type {
-          font-size: 0.9rem;
+          font-size: 1.1rem;
           color: #fabb00; // Slightly lighter shade for the attribution
           margin-top: 0.5rem;
         }
@@ -40,7 +40,7 @@
   
     h2 {
       font-size: 2rem;
-      font-weight: bold;
+      font-weight: 500;
       margin-bottom: 1.5rem;
     }
   
