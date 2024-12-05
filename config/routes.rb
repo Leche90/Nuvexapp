@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   get "addresses/create"
   # devise_for :users
   # Admin routes
-  devise_for :users, path: "admin", controllers: {
+  devise_for :admins, path: "admin", controllers: {
     sessions: "admin/sessions"
   }, as: "admin"
 
