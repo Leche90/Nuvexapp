@@ -15,6 +15,6 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: P@ssword
-      POSTGRES_DB: yourdatabase
+      POSTGRES_DB: nuvexa_development
     ports:
       - "5432:5432"
