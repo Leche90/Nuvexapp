@@ -1,47 +1,84 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa; // Light grey
-  }
+.testimonials-section {
+    background-color: #f1f1f1; // Deep gold
+    color: rgb(37, 37, 37);
+    padding: 4rem 0;
+    text-align: center;
+    margin-right: 20px;
+    margin-left: 20px;
   
-  .navbar {
-    background-color: #343a40; // Dark grey
-    .navbar-brand, .nav-link {
-      color: #ffd700 !important; // Gold
-      &:hover {
-        color: #ffea70 !important; // Lighter gold
+    h2 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+      color: #1f1f1f; // Slightly off-white for contrast
+    }
+  
+    .testimonial-card {
+      background-color: #424242; // Lighter gold
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1rem;
+  
+      p {
+        margin: 0;
+        color: #ffffff; // White text for readability
+        &:last-of-type {
+          font-size: 0.9rem;
+          color: #fabb00; // Slightly lighter shade for the attribution
+          margin-top: 0.5rem;
+        }
+      }
+    }
+  }
+
+  .newsletter-section {
+    background-color: #ffffff; // Darker gold
+    color: #1f1f1f;
+    padding: 4rem 2rem;
+    text-align: center;
+  
+    h2 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+    }
+  
+    p {
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      color: #1f1f1f; // Slightly off-white
+    }
+  
+    form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  
+      input[type="email"] {
+        padding: 0.75rem;
+        border: none;
+        border-radius: 0.5rem 0 0 0.5rem;
+        flex: 1;
+        max-width: 300px;
+        font-size: 1rem;
+        color: #a9822d; // Text color matching the section
+      }
+  
+      button {
+        background-color: #cb9500; // Deep gold
+        border: none;
+        border-radius: 0 0.5rem 0.5rem 0;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        color: #fff; // White text
+        cursor: pointer;
+  
+        &:hover {
+          background-color: #fabb00; // Slightly lighter gold on hover
+        }
       }
     }
   }
   
-  footer {
-    background-color: #343a40; // Dark grey
-    color: #ffd700; // Gold
-    font-weight: bold;
-    p {
-      margin: 0;
-    }
-  }
-  
-  .bg-gray-500 {
-    background-color: #6c757d !important; // Medium grey
-  }
-  
-  button {
-    background-color: #ffd700; // Gold
-    &:hover {
-      background-color: #ffea70; // Lighter gold
-    }
-  }
-  
-  .text-gray-800 {
-    color: #343a40; // Dark grey
-  }
-  
-  .text-gray-300 {
-    color: #ced4da; // Light grey
-  }
-  
-  .text-gray-500 {
-    color: #6c757d; // Medium grey
-  }
   
