@@ -99,3 +99,16 @@
     }
   }
   
+  .contact-details, .customer-service, .follow-us {
+    margin: 20px 0;
+  }
+  
+  .contact-details a, .follow-us a {
+    color: #d4af37; // Deep gold to match your site's theme
+    text-decoration: none;
+  }
+  
+  .contact-details a:hover, .follow-us a:hover {
+    text-decoration: underline;
+  }
+  
