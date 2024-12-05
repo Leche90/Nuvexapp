@@ -16,7 +16,7 @@ class ProductsController < ApplicationController
     end
 
     # Handle additional filters like "new" and "recently_updated"
-    if params[:filter] == "new"
+    if params[:filter] == "old"
       @products = @products.new_products
     elsif params[:filter] == "recently_updated"
       @products = @products.recently_updated
@@ -29,7 +29,7 @@ class ProductsController < ApplicationController
     @categories = Category.all
   end
 
-  def sho
+  def show
     @product = Product.find(params[:id])
 
     # Fetch related products that share at least one category with the current product
