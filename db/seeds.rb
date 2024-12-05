@@ -1,112 +1,76 @@
-# require 'net/http'
-# require 'json'
-# require 'uri'
-# require 'open-uri'
+require 'faker'
+require 'open-uri'
+require 'csv'
+require 'cgi' # For URL encoding
 
-# # Fetch data from a URL with custom headers and redirect handling
-# def fetch_data(url)
-#   uri = URI(url)
-#   begin
-#     # Set up HTTP client with SSL if needed
-#     http = Net::HTTP.new(uri.host, uri.port)
-#     http.use_ssl = true if uri.scheme == 'https'
+# Define categories
+categories = ["Home Decor", "Wellness", "Clothing", "Shoes"]
+categories.each do |category_name|
+  Category.find_or_create_by!(name: category_name)
+end
+puts "Categories seeded!"
 
-#     # Prepare the GET request with headers
-#     request = Net::HTTP::Get.new(uri)
+# Define a method to create a product with an attached image
+def create_product_with_image(attributes, image_url)
+  product = Product.new(attributes)
+  begin
+    # Attach an image
+    product.image.attach(
+      io: URI.open(image_url),
+      filename: "#{product.name.parameterize}.jpg",
+      content_type: 'image/jpg'
+    )
+    product.save! # Save the product only after attaching the image
+    puts "Created product: #{product.name}"
+    product
+  rescue StandardError => e
+    puts "Failed to attach image for #{product.name}: #{e.message}. Skipping product creation."
+    nil
+  end
+end
 
-#     # Add cookies from the provided cookie string
-#     request['Cookie'] = 'client_key=2691; session_token.1731127698385777702=307e684275f6e2dec0561c7b3ebff4f3b60e06e192bc1f796c11edc3ae37925d'
+# Seed products from CSV
+csv_file_path = Rails.root.join('db', 'products.csv')
+if File.exist?(csv_file_path)
+  CSV.foreach(csv_file_path, headers: true) do |row|
+    category = Category.find_by(name: row['Category']) || Category.first
+    attributes = {
+      name: row['Name'],
+      description: row['Description'] || Faker::Marketing.buzzwords,
+      price: row['Price'].to_f,
+      stock_quantity: row['Stock Quantity'].to_i
+    }
+    image_url = row['Image URL'] || "https://via.placeholder.com/150?text=#{CGI.escape(row['Name'] || 'Product')}"
+    product = create_product_with_image(attributes, image_url)
+    ProductCategory.create!(product: product, category: category) if product
+  end
+  puts "Products seeded from CSV!"
+else
+  # Seed products dynamically if no CSV file is provided
+  categories_objects = Category.all
+  product_count = 100
 
-#     # Make the request and handle redirects
-#     response = http.request(request)
+  product_count.times do |i|
+    category = categories_objects.sample
+    product_name = Faker::Commerce.product_name
+    product_description = Faker::Marketing.buzzwords + " " + Faker::Lorem.sentence(word_count: 15, supplemental: true)
+    product_price = Faker::Commerce.price(range: 10..100)
 
-#     # Log the response code and body for debugging
-#     puts "Response Code: #{response.code}"
-#     puts "Response Body: #{response.body}"
+    attributes = {
+      name: product_name,
+      description: product_description,
+      price: product_price,
+      stock_quantity: Faker::Number.between(from: 10, to: 100)
+    }
+    image_url = "https://via.placeholder.com/150?text=#{CGI.escape(product_name)}"
+    product = create_product_with_image(attributes, image_url)
+    ProductCategory.create!(product: product, category: category) if product
+  end
+  puts "Dynamically generated products seeded!"
+end
 
-#     # Follow redirects if necessary (status code 3xx)
-#     while response.is_a?(Net::HTTPRedirection)
-#       location = response['location']
-#       uri = URI(location)
-#       response = http.get(uri)
-#     end
-
-#     # Check if the response is successful
-#     if response.is_a?(Net::HTTPSuccess)
-#       JSON.parse(response.body)  # Parse the JSON data
-#     else
-#       raise "Failed to fetch data: #{response.code} - #{response.message}"
-#     end
-#   rescue StandardError => e
-#     puts "Error fetching data from #{url}: #{e.message}"
-#     nil
-#   end
-# end
-
-# # Fetch categories
-# category_api_url = 'https://www.shopperplus.ca/marathon_api/catalog_collections?locale=en&country=ca'
-# category_data = fetch_data(category_api_url)
-
-# if category_data && category_data['data'] && category_data['data']['departmentCatalogs']
-#   category_data['data']['departmentCatalogs']['root'].each do |category|
-#     begin
-#       # Check for category name before creating the record
-#       created_category = Category.create!(name: category['name'])
-#       puts "Created category: #{created_category.name}"
-#     rescue StandardError => e
-#       puts "Error creating category '#{category['name']}': #{e.message}"
-#     end
-#   end
-# else
-#   puts "No category data found or error with the API response."
-# end
-
-# # Fetch products for each category
-# category_data["data"]["departmentCatalogs"]["root"].each do |category_data|
-#   products_url = "https://www.shopperplus.ca/marathon_api/catalog_collections/#{category_data['id']}/related_products?page=1&page_size=24&sort_by=default&locale=en&country=ca"
-#   products_data = fetch_data(products_url)
-
-#   if products_data && products_data["data"] && products_data["data"]["products"]
-#     products_data["data"]["products"].each do |product_data|
-#       next if Product.exists?(product_data["id"])
-
-#       # Find the category
-#       category = Category.find_by(name: category_data["name"])
-
-#       # Create Product
-#       product = Product.create!(
-#         name: product_data["productsData"].first["name"],  # Name from the 'productsData'
-#         price: product_data["productsData"].first["priceString"].delete('$').to_f,  # Price (convert from string to float)
-#         description: product_data["seoAlt"],  # Use SEO alt as description (or you can use another field)
-#       )
-
-#       # Associate product with category via the join table
-#       product.categories << category
-
-#       # Step 3: Attach product image using ActiveStorage (if applicable)
-#       image_url = product_data["smallImage"]
-
-#       if image_url.present?
-#         product.image.attach(io: URI.open(image_url), filename: "#{product.name.parameterize}.jpg")
-#       else
-#         # If no image URL is available, you can either skip or attach a default image
-#         puts "No image available for product: #{product.name}. Skipping image attachment."
-#         # Optionally, attach a default image here:
-#         # product.image.attach(io: URI.open('https://path/to/default/image.jpg'), filename: 'default.jpg')
-#       end
-
-#       puts "Created product: #{product.name} in category: #{category.name}"
-#     end
-#   else
-#     puts "No products found or error with the API response for category: #{category_data['name']}"
-#   end
-# end
-
-# puts "Seeding completed!"
-
-
-
-Province.create([
+# Seed provinces
+Province.create!([
   { name: "Alberta", code: "AB", pst: 0.0, gst: 0.05, hst: 0.0 },
   { name: "British Columbia", code: "BC", pst: 0.07, gst: 0.05, hst: 0.0 },
   { name: "Manitoba", code: "MB", pst: 0.07, gst: 0.05, hst: 0.0 },
@@ -121,3 +85,4 @@ Province.create([
   { name: "Saskatchewan", code: "SK", pst: 0.06, gst: 0.05, hst: 0.0 },
   { name: "Yukon", code: "YT", pst: 0.0, gst: 0.05, hst: 0.0 }
 ])
+puts "Provinces seeded successfully!"
