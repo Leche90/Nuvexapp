@@ -47,7 +47,6 @@ __tests__/
 # Ignore CI-related files
 .github/
 .gitlab-ci.yml
-Dockerfile
 
 # Ignore test directory
 test/
