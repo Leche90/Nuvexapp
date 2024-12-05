@@ -14,7 +14,7 @@ services:
     image: postgres:13
     environment:
       POSTGRES_USER: root
-      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_PASSWORD: P@ssword
       POSTGRES_DB: yourdatabase
     ports:
       - "5432:5432"
