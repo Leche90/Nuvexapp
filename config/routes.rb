@@ -37,6 +37,10 @@ Rails.application.routes.draw do
     delete "remove", on: :collection
   end
 
+  get 'about', to: 'pages#about'
+  get 'contact', to: 'pages#contact'
+
+
   resources :users, only: [] do
     resource :address, only: [ :new, :create, :edit, :update ] # Address belongs to user, edit and update actions
   end
