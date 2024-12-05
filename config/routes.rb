@@ -12,6 +12,8 @@ Rails.application.routes.draw do
     sessions: "frontend/sessions"
   }, as: "frontend"
 
+  get 'about', to: 'pages#about'
+
   # Admin routes
   namespace :admin do
     get "provinces/index"
