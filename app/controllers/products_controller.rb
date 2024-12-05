@@ -29,7 +29,7 @@ class ProductsController < ApplicationController
     @categories = Category.all
   end
 
-  def show
+  def sho
     @product = Product.find(params[:id])
 
     # Fetch related products that share at least one category with the current product
