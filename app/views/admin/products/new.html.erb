@@ -1,0 +1,44 @@
+<%= form_with model: @product, url: admin_products_path, local: true, html: { enctype: "multipart/form-data" } do |form| %>
+  <% if @product.errors.any? %>
+    <div class="alert alert-danger">
+      <ul>
+        <% @product.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :description %>
+    <%= form.text_area :description, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :price %>
+    <%= form.number_field :price, class: 'form-control', step: '0.01' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :stock_quantity %>
+    <%= form.number_field :stock_quantity, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :category_ids, "Categories" %>
+    <%= form.collection_check_boxes :category_ids, Category.all, :id, :name %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :image %>
+    <%= form.file_field :image, class: 'form-control' %>  <!-- This is the file upload field -->
+  </div>
+  
+
+  <%= form.submit 'Save Product', class: 'btn btn-primary' %>
+<% end %>

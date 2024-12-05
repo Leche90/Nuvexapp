@@ -1,0 +1,33 @@
+<%= form_for @address, url: user_address_path(@user) do |f| %>
+  <div class="form-group">
+    <%= f.label :address_line1 %>
+    <%= f.text_field :address_line1, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :address_line2 %>
+    <%= f.text_field :address_line2, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :city %>
+    <%= f.text_field :city, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :province_id, 'Select Province' %>
+    <%= f.collection_select :province_id, @provinces, :id, :name, { prompt: 'Select Province' }, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :postal_code %>
+    <%= f.text_field :postal_code, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :country %>
+    <%= f.text_field :country, class: 'form-control' %>
+  </div>
+
+  <%= f.submit 'Save Address', class: 'btn btn-primary' %>
+<% end %>

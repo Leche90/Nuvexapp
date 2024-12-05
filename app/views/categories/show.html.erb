@@ -1,0 +1,31 @@
+<h4><%= @category.name %></h4>
+
+<!-- Filter Options -->
+<div class="mb-3">
+    <%= link_to 'New Products', category_path(@category, filter: 'new'), class: "btn btn-primary" %>
+  <%= link_to 'Recently Updated', category_path(@category, filter: 'recently_updated'), class: "btn btn-primary" %>
+  <%= link_to 'All Products', category_path(@category), class: "btn btn-secondary" %> <!-- Reset filter -->
+</div>
+
+<div class="row">
+  <% @products.each do |product| %>
+    <div class="col-md-4">
+      <div class="card mb-3">
+        <% if product.image.attached? %>
+            <%= image_tag product.image, class: "card-img-top", alt: product.name %>
+          <% else %>
+            <%= image_tag "placeholder.jpg", class: "card-img-top", alt: "Placeholder" %>
+          <% end %>
+        <div class="card-body">
+          <h5 class="card-title"><%= link_to product.name, product_path(product) %></h5>
+          <p class="card-text"><%= product.description.presence&.truncate(100) || "No description available" %></p>
+          <p class="card-text"><strong>Price:</strong> $<%= product.price %></p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="pagination justify-content-center mt-4">
+  <%= paginate @products %>
+</div>

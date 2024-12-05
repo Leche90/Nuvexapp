@@ -1,0 +1,7 @@
+<div class="list-group">
+  <% @categories.each do |category| %>
+    <a href="<%= category_path(category) %>" class="list-group-item list-group-item-action">
+      <%= category.name %>
+    </a>
+  <% end %>
+</div>

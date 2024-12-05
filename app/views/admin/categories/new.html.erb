@@ -1,0 +1,12 @@
+<h3></h3>
+
+<%= form_with(url: admin_categories_path, model: @category, local: true) do |form| %>
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+
+  <%= form.submit 'Create Category', class: 'btn btn-primary mt-2' %>
+<% end %>
+
+<%= link_to 'Back to Categories', admin_categories_path, class: 'btn btn-secondary mt-2' %>

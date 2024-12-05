@@ -1,0 +1,95 @@
+<h1 class="text-center my-4">Checkout</h1>
+
+<% if @cart_items.empty? %>
+  <p class="text-center alert alert-info">Your cart is empty.</p>
+<% else %>
+  <div class="container">
+    <div class="row">
+      <!-- Cart Items Section -->
+      <div class="col-md-6">
+        <h3>Cart Items</h3>
+        <ul class="list-group mb-4">
+          <% @cart_items.each do |cart_item| %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span><%= cart_item[:product].name %></span>
+              <span><%= cart_item[:quantity] %> x <%= number_to_currency(cart_item[:product].price) %></span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <!-- Order Form Section -->
+      <div class="col-md-6">
+        <h3>Shipping Information</h3>
+
+        <% if @order.address.present? %>
+          <%= form_with model: @order, url: checkouts_path, local: true, class: "needs-validation" do |form| %>
+            <div class="row g-3">
+              <%= form.fields_for :address do |address_fields| %>
+                <div class="col-12">
+                  <%= address_fields.label :address_line1, "Address Line 1", class: "form-label" %>
+                  <%= address_fields.text_field :address_line1, class: "form-control", value: @order.address&.address_line1, disabled: true %>
+                </div>
+                <div class="col-12">
+                  <%= address_fields.label :address_line2, "Address Line 2", class: "form-label" %>
+                  <%= address_fields.text_field :address_line2, class: "form-control", value: @order.address&.address_line2, disabled: true %>
+                </div>
+                <div class="col-md-6">
+                  <%= address_fields.label :city, "City", class: "form-label" %>
+                  <%= address_fields.text_field :city, class: "form-control", value: @order.address&.city, disabled: true %>
+                </div>
+                <div class="col-md-6">
+                  <%= address_fields.label :province_id, "Province", class: "form-label" %>
+                  <%= address_fields.collection_select :province_id, @provinces, :id, :name, { prompt: "Select Province" }, class: "form-select", selected: @order.address&.province_id, disabled: true %>
+                </div>
+                <div class="col-md-6">
+                  <%= address_fields.label :postal_code, "Postal Code", class: "form-label" %>
+                  <%= address_fields.text_field :postal_code, class: "form-control", value: @order.address&.postal_code, disabled: true %>
+                </div>
+                <div class="col-md-6">
+                  <%= address_fields.label :country, "Country", class: "form-label" %>
+                  <%= address_fields.text_field :country, class: "form-control", value: @order.address&.country, disabled: true %>
+                </div>
+              <% end %>
+            </div>
+
+            <!-- Order Summary Section -->
+            <h3 class="mt-4">Order Summary</h3>
+            <ul class="list-group mb-4">
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Subtotal</span>
+                <strong><%= number_to_currency(@subtotal) %></strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>GST</span>
+                <strong><%= number_to_currency(@gst) %></strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>PST</span>
+                <strong><%= number_to_currency(@pst) %></strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>HST</span>
+                <strong><%= number_to_currency(@hst) %></strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Total Tax</span>
+                <strong><%= number_to_currency(@total_tax) %></strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span><strong>Total Price</strong></span>
+                <strong><%= number_to_currency(@total_price) %></strong>
+              </li>
+            </ul>
+
+            <%= form.submit "Place Order", class: "btn btn-success w-100" %>
+          <% end %>
+        <% else %>
+          <!-- Show Button to Add Address -->
+          <p>Please add your address to proceed with the checkout.</p>
+          <%= link_to "Add Address", new_user_address_path(current_frontend_user), class: "btn btn-primary w-100" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

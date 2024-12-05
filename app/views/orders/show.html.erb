@@ -1,0 +1,78 @@
+<h1 class="text-center my-4">Order Details</h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Order Summary</h3>
+      <ul class="list-group mb-4">
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Order Number</span>
+          <strong><%= @order.id %></strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Order Date</span>
+          <strong><%= @order.created_at.strftime('%B %d, %Y') %></strong>
+        </li>
+      </ul>
+
+      <h3>Shipping Information</h3>
+      <ul class="list-group mb-4">
+        <li class="list-group-item">
+          <strong>Address Line 1:</strong> <%= @order.address.address_line1 %>
+        </li>
+        <li class="list-group-item">
+          <strong>Address Line 2:</strong> <%= @order.address.address_line2 %>
+        </li>
+        <li class="list-group-item">
+          <strong>City:</strong> <%= @order.address.city %>
+        </li>
+        <li class="list-group-item">
+          <strong>Province:</strong> <%= @order.address.province.name %>
+        </li>
+        <li class="list-group-item">
+          <strong>Postal Code:</strong> <%= @order.address.postal_code %>
+        </li>
+        <li class="list-group-item">
+          <strong>Country:</strong> <%= @order.address.country %>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-md-6">
+      <h3>Order Items</h3>
+      <ul class="list-group mb-4">
+        <% @order.order_items.each do |item| %>
+          <li class="list-group-item d-flex justify-content-between">
+            <span><%= item.product.name %></span>
+            <span><%= item.quantity %> x <%= number_to_currency(item.product.price) %></span>
+            <span><%= number_to_currency(item.price) %></span>
+          </li>
+        <% end %>
+      </ul>
+
+      <h3>Order Totals</h3>
+      <ul class="list-group mb-4">
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Subtotal</span>
+          <strong><%= number_to_currency(@order.total_amount) %></strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>GST</span>
+          <strong><%= number_to_currency(@order.gst) %></strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>PST</span>
+          <strong><%= number_to_currency(@order.pst) %></strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Total Tax</span>
+          <strong><%= number_to_currency(@order.total_tax) %></strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span><strong>Total Price</strong></span>
+          <strong><%= number_to_currency(@order.total_price) %></strong>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

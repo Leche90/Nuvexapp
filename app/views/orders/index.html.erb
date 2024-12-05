@@ -1,0 +1,28 @@
+<!-- app/views/orders/index.html.erb -->
+<h1>Your Past Orders</h1>
+
+<% if @orders.empty? %>
+  <p>You have no past orders.</p>
+<% else %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Order #</th>
+        <th>Order Date</th>
+        <%# <th>Status</th> %>
+        <th>Total Amount</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @orders.each do |order| %>
+        <tr>
+          <td><%= order.id %></td>
+          <td><%= order.created_at.strftime('%B %d, %Y') %></td>
+          <td><%= number_to_currency(order.total_price) %></td>
+          <td><%= link_to 'View Details', order_path(order), class: "btn btn-info" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

@@ -1,0 +1,21 @@
+<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+  <div class="sidebar-sticky">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <%= link_to "Dashboard", admin_root_path, class: "nav-link" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to "Products", admin_products_path, class: "nav-link" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to "Orders", admin_orders_path, class: "nav-link" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to "Categories", admin_categories_path, class: "nav-link" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to "Tax rates", admin_provinces_path, class: "nav-link" %>
+      </li>
+    </ul>
+  </div>
+</nav>

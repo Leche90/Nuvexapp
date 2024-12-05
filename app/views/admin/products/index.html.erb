@@ -1,0 +1,38 @@
+<!-- app/views/admin/products/index.html.erb -->
+
+<h1></h1>
+
+<%= link_to 'Add New Product', new_admin_product_path, class: 'btn btn-primary' %>
+
+<table class="table table-striped mt-3">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Price</th>
+       <th>Categories</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= truncate(product.description, length: 50) %></td>
+        <td><%= number_to_currency(product.price) %></td>
+        <td><%= product.categories.map(&:name).join(", ") %></td>
+        <td>
+          <%= link_to 'Edit', edit_admin_product_path(product), class: 'btn btn-warning btn-sm' %> |
+          <%= link_to 'Delete', admin_product_path(product), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  }, class: 'btn btn-danger btn-sm' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="pagination justify-content-center my-4">
+  <%= paginate @products %>
+</div>

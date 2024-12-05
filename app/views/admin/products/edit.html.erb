@@ -1,0 +1,66 @@
+<%= form_with model: @product, url: admin_product_path(@product), method: :patch, local: true, html: { enctype: "multipart/form-data" } do |form| %>
+  <% if @product.errors.any? %>
+    <div class="alert alert-danger">
+      <ul>
+        <% @product.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :description %>
+    <%= form.text_area :description, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :price %>
+    <%= form.number_field :price, class: 'form-control', step: '0.01' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :stock_quantity %>
+    <%= form.number_field :stock_quantity, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :category_ids, "Categories" %>
+    <%= form.collection_check_boxes :category_ids, Category.all, :id, :name %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :image %>
+    <%= form.file_field :image, class: 'form-control', onchange: 'previewImage(event)' %> <!-- Trigger preview function -->
+  </div>
+
+  <div id="existing-image-container" style="display: <%= @product.image.attached? ? 'block' : 'none' %>;">
+    <%= image_tag @product.image if @product.image.attached? %>
+  </div>
+
+  <div id="image-preview-container">
+    <img id="image-preview" src="#" alt="Image Preview" style="display:none; max-width: 200px;"/>
+  </div>
+
+  <%= form.submit 'Save Product', class: 'btn btn-primary' %>
+<% end %>
+
+<script>
+  function previewImage(event) {
+    var reader = new FileReader();
+    reader.onload = function() {
+      var output = document.getElementById('image-preview');
+      output.style.display = 'block';
+      output.src = reader.result;
+
+      var img = document.getElementById("existing-image-container");
+      img.style.display = 'none'; // Hide the existing image when new image is selected
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  }
+</script>

@@ -1,0 +1,62 @@
+<div class="container mt-4">
+  <!-- Page Header -->
+  <div class="text-center mb-4">
+    <h2 >Admin Dashboard</h2>
+    <p class="lead">Welcome to the admin panel! Manage your platform efficiently.</p>
+  </div>
+
+  <!-- Dashboard Links -->
+  <div class="row">
+
+    <%# Uncomment if managing users in the future %>
+    <%# <div class="col-md-4 mb-4"> %>
+    <%#   <div class="card h-100"> %>
+    <%#     <div class="card-body text-center"> %>
+    <%#       <h5 class="card-title">Users</h5> %>
+    <%#       <p class="card-text">Manage user accounts and permissions.</p> %>
+    <%#       <%= link_to "Manage Users", admin_users_path, class: "btn btn-primary" %>
+    <%#     </div> %>
+    <%#   </div> %>
+    <%# </div> %>
+
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title">Products</h5>
+          <p class="card-text">Manage your products and inventory.</p>
+          <%= link_to "Manage Products", admin_products_path, class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title">Orders</h5>
+          <p class="card-text">Track and process customer orders.</p>
+          <%= link_to "Manage Orders", admin_orders_path, class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title">Categories</h5>
+          <p class="card-text">Organize and manage product categories.</p>
+          <%= link_to "Manage Categories", admin_categories_path, class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title">Tax Rates</h5>
+          <p class="card-text">Update tax rates for provinces and territories.</p>
+          <%= link_to "Update Tax Rates", admin_provinces_path, class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
